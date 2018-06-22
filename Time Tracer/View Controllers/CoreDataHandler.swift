@@ -2,7 +2,7 @@
 //  CoreDataHandler.swift
 //  Time Tracer
 //
-//  Created by Celal Aslan on 2018-06-19.
+//  Created by Celal Aslan on 2018-06-15.
 //  Copyright © 2018 Celal Aslan. All rights reserved.
 //
 
@@ -128,14 +128,11 @@ class CoreDataHandler: NSObject {
      - parameter endDate:   when it was finished
      - parameter duration:  duration of the activity
      */
-    func saveHistory(name: String, startDate: NSDate, endDate: NSDate, duration: NSInteger) {
-        let history: History = NSEntityDescription.insertNewObject(forEntityName: "History", into: self.backgroundManagedObjectContext) as! History
-        history.name = name
-        history.startDate = startDate
-        history.endDate = endDate
-        history.duration = duration as NSNumber
+    func saveLog(name: String, duration: NSInteger) {
+        let log: Logs = NSEntityDescription.insertNewObject(forEntityName: "Logs", into: self.backgroundManagedObjectContext) as! Logs
+        log.name = name
+        log.duration = duration as NSNumber
         
-        history.saveTime = dateFormatter.string(from: endDate as Date)
         saveContext()
     }
     
@@ -144,15 +141,15 @@ class CoreDataHandler: NSObject {
      
      - returns: array of history objects
      */
-    func allHistoryItems() -> [History]? {
+    func allHistoryItems() -> [Logs]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        let entityDescription = NSEntityDescription.entity(forEntityName: "History", in: self.backgroundManagedObjectContext)
+        let entityDescription = NSEntityDescription.entity(forEntityName: "Logs", in: self.backgroundManagedObjectContext)
         fetchRequest.entity = entityDescription
         
-        let dateDescriptor = NSSortDescriptor(key: "startDate", ascending: false)
-        fetchRequest.sortDescriptors = [dateDescriptor]
+        let nameDescriptor = NSSortDescriptor(key: "name", ascending: false)
+        fetchRequest.sortDescriptors = [nameDescriptor]
         
-        return (fetchCoreDataWithFetchRequest(fetchRequest: fetchRequest) as! [History])
+        return (fetchCoreDataWithFetchRequest(fetchRequest: fetchRequest) as! [Logs])
     }
     
     /**
@@ -160,20 +157,20 @@ class CoreDataHandler: NSObject {
      
      - returns: array of History objects
      */
-    func fetchCoreDataForTodayActivities() -> [History] {
+    func fetchCoreDataForTodayActivities() -> [Logs] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        let entityDescription = NSEntityDescription.entity(forEntityName: "History", in: self.backgroundManagedObjectContext)
+        let entityDescription = NSEntityDescription.entity(forEntityName: "Logs", in: self.backgroundManagedObjectContext)
         fetchRequest.entity = entityDescription
         
-        let dateDescriptor = NSSortDescriptor(key: "startDate", ascending: false)
-        fetchRequest.sortDescriptors = [dateDescriptor]
+        let nameDescriptor = NSSortDescriptor(key: "name", ascending: false)
+        fetchRequest.sortDescriptors = [nameDescriptor]
         
-        let startDate = NSDate.dateByMovingToBeginningOfDay()
-        let endDate = NSDate.dateByMovingToEndOfDay()
-        let predicate = NSPredicate(format: "(startDate >= %@) AND (startDate <= %@)", startDate, endDate)
+    
+        let name = NSManagedObject()
+        let predicate = NSPredicate(format: "(name >= %@)", name)
         fetchRequest.predicate = predicate
         
-        return (fetchCoreDataWithFetchRequest(fetchRequest: fetchRequest) as! [History])
+        return (fetchCoreDataWithFetchRequest(fetchRequest: fetchRequest) as! [Logs])
     }
     
     /**

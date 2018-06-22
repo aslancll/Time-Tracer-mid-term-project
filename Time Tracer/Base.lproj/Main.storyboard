@@ -98,28 +98,27 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ucQ-LM-CzP" userLabel="Buttons Stack View">
-                                <rect key="frame" x="77" y="236" width="221.5" height="30"/>
+                                <rect key="frame" x="30" y="236" width="315" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7fU-hD-erZ" userLabel="Update">
-                                        <rect key="frame" x="0.0" y="0.0" width="68.5" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Add">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zL7-kp-APK">
-                                        <rect key="frame" x="76.5" y="0.0" width="68.5" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="153.5" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.56031829119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Start">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="startPauseActivity" destination="9pv-A4-QxB" eventType="touchUpInside" id="cDq-KN-oKR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyg-2f-x7p" userLabel="Stop">
-                                        <rect key="frame" x="153" y="0.0" width="68.5" height="30"/>
+                                        <rect key="frame" x="161.5" y="0.0" width="153.5" height="30"/>
                                         <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Stop">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="stopActivity" destination="9pv-A4-QxB" eventType="touchUpInside" id="NdA-1M-p8y"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -187,11 +186,11 @@
                         <constraints>
                             <constraint firstItem="Fnr-uX-x5g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PQr-Ze-W5v" secondAttribute="leading" constant="30" id="5lT-j4-k0D"/>
                             <constraint firstItem="ref-n4-qxW" firstAttribute="centerX" secondItem="PQr-Ze-W5v" secondAttribute="centerX" id="64j-6j-hFJ"/>
-                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ucQ-LM-CzP" secondAttribute="trailing" priority="250" constant="20" id="AXJ-Fs-fWN"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ucQ-LM-CzP" secondAttribute="trailing" constant="30" id="AXJ-Fs-fWN"/>
                             <constraint firstItem="d8g-LI-vQa" firstAttribute="centerX" secondItem="r0r-gT-y5n" secondAttribute="centerX" id="EXb-gk-moq"/>
                             <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ref-n4-qxW" secondAttribute="trailing" constant="30" id="FLh-6c-1AB"/>
                             <constraint firstItem="OlD-k1-FBq" firstAttribute="centerY" secondItem="DeN-hY-Fcm" secondAttribute="centerY" id="FMb-kY-XP9"/>
-                            <constraint firstItem="ucQ-LM-CzP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PQr-Ze-W5v" secondAttribute="leading" priority="250" constant="20" id="FgN-hI-6rk"/>
+                            <constraint firstItem="ucQ-LM-CzP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="PQr-Ze-W5v" secondAttribute="leading" constant="30" id="FgN-hI-6rk"/>
                             <constraint firstItem="b3i-cG-ydE" firstAttribute="centerX" secondItem="OlD-k1-FBq" secondAttribute="centerX" id="HdG-QP-dIu"/>
                             <constraint firstItem="aZP-bL-YDt" firstAttribute="centerX" secondItem="PQr-Ze-W5v" secondAttribute="centerX" id="Lyx-UG-EPr"/>
                             <constraint firstItem="Ybl-NS-fbA" firstAttribute="centerX" secondItem="Nos-hA-ZRk" secondAttribute="centerX" id="OeQ-Ip-cpX"/>
@@ -216,7 +215,6 @@
                             <constraint firstItem="5gg-Pm-dC0" firstAttribute="top" secondItem="aZP-bL-YDt" secondAttribute="bottom" constant="10" id="hYP-Uh-4yv"/>
                             <constraint firstItem="OlD-k1-FBq" firstAttribute="centerX" secondItem="DeN-hY-Fcm" secondAttribute="centerX" id="hfn-lQ-1Ch"/>
                             <constraint firstItem="aZP-bL-YDt" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" constant="10" id="opF-NL-ExX"/>
-                            <constraint firstItem="7fU-hD-erZ" firstAttribute="centerX" secondItem="d8g-LI-vQa" secondAttribute="centerX" id="qcM-ye-1g4"/>
                             <constraint firstItem="ref-n4-qxW" firstAttribute="top" secondItem="Fnr-uX-x5g" secondAttribute="bottom" constant="-3" id="roz-J1-hh3"/>
                             <constraint firstItem="5gg-Pm-dC0" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" constant="50" id="uGp-17-pBM"/>
                             <constraint firstItem="Fnr-uX-x5g" firstAttribute="centerX" secondItem="PQr-Ze-W5v" secondAttribute="centerX" id="uXj-gc-I9j"/>
@@ -234,7 +232,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addButton" destination="7fU-hD-erZ" id="c9h-S2-pzW"/>
                         <outlet property="currentDateField" destination="5gg-Pm-dC0" id="9Nx-Jb-he1"/>
                         <outlet property="hoursLabel" destination="d8g-LI-vQa" id="Y86-Vv-u28"/>
                         <outlet property="minutesLabel" destination="Nos-hA-ZRk" id="mTT-fZ-Tzl"/>

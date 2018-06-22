@@ -55,6 +55,26 @@ class ActivityListViewController: UIViewController, UITableViewDataSource, UITab
         
         return [delete, share]
     }
+    
+    /**
+     Tells the delegate that the specified row is now selected. Pass the selected activity to the delegate method.
+     
+     - parameter tableView: tableView
+     - parameter indexPath: which indexpath was selected
+     */
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "unwindFromActivities", sender: indexPath)
+    }
+    
+    /**
+     Returns the selected activity
+     
+     - returns: Activity that was selected
+     */
+    func selectedActivity() -> Activity {
+        let selectedIndexPath = tableView.indexPathForSelectedRow!
+        return activitiesArray[selectedIndexPath.row]
+    }
 
     @IBOutlet weak var activityListTableView: UITableView!
     

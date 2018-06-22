@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		63E5950620DB30AD00C1D3ED /* ActivityListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5950520DB30AD00C1D3ED /* ActivityListViewController.swift */; };
+		63E5950E20DC84A000C1D3ED /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63E5950820DC849F00C1D3ED /* Model.xcdatamodeld */; };
+		63E5951020DC84A000C1D3ED /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5950B20DC849F00C1D3ED /* CoreDataHandler.swift */; };
+		63E5951320DC851900C1D3ED /* Logs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5951220DC851900C1D3ED /* Logs.swift */; };
+		63E5951720DC8C0B00C1D3ED /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5951620DC8C0B00C1D3ED /* Activity.swift */; };
 		63E788E920D9CADC005080A0 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E788E820D9CADC005080A0 /* DatePickerDialog.swift */; };
 		63E788F720DA1F9C005080A0 /* NewActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E788F620DA1F9C005080A0 /* NewActivityViewController.swift */; };
 		63E788F920DA2310005080A0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E788F820DA2310005080A0 /* Constants.swift */; };
@@ -23,6 +27,10 @@
 
 /* Begin PBXFileReference section */
 		63E5950520DB30AD00C1D3ED /* ActivityListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListViewController.swift; sourceTree = "<group>"; };
+		63E5950920DC849F00C1D3ED /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		63E5950B20DC849F00C1D3ED /* CoreDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
+		63E5951220DC851900C1D3ED /* Logs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logs.swift; sourceTree = "<group>"; };
+		63E5951620DC8C0B00C1D3ED /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		63E788E820D9CADC005080A0 /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		63E788F620DA1F9C005080A0 /* NewActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityViewController.swift; sourceTree = "<group>"; };
 		63E788F820DA2310005080A0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -58,6 +66,9 @@
 				63F2568320D47C9600A0AB2B /* SettingsViewController.swift */,
 				63F2568520D47CEE00A0AB2B /* HelpViewController.swift */,
 				63E788F620DA1F9C005080A0 /* NewActivityViewController.swift */,
+				63E5950B20DC849F00C1D3ED /* CoreDataHandler.swift */,
+				63E5951220DC851900C1D3ED /* Logs.swift */,
+				63E5951620DC8C0B00C1D3ED /* Activity.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -86,6 +97,7 @@
 				63E788E820D9CADC005080A0 /* DatePickerDialog.swift */,
 				6315B64A20D878B700325944 /* View Controllers */,
 				63F2566F20D46B4100A0AB2B /* Main.storyboard */,
+				63E5950820DC849F00C1D3ED /* Model.xcdatamodeld */,
 				63F2567220D46B4600A0AB2B /* Assets.xcassets */,
 				63F2567420D46B4600A0AB2B /* LaunchScreen.storyboard */,
 				63F2567720D46B4600A0AB2B /* Info.plist */,
@@ -164,14 +176,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E5951720DC8C0B00C1D3ED /* Activity.swift in Sources */,
 				63F2566E20D46B4100A0AB2B /* LogViewController.swift in Sources */,
 				63F2566A20D46B4100A0AB2B /* AppDelegate.swift in Sources */,
+				63E5951320DC851900C1D3ED /* Logs.swift in Sources */,
+				63E5951020DC84A000C1D3ED /* CoreDataHandler.swift in Sources */,
 				63F2566C20D46B4100A0AB2B /* MainViewController.swift in Sources */,
 				63F2568420D47C9600A0AB2B /* SettingsViewController.swift in Sources */,
 				63E788F720DA1F9C005080A0 /* NewActivityViewController.swift in Sources */,
 				63F2568620D47CEE00A0AB2B /* HelpViewController.swift in Sources */,
 				63E5950620DB30AD00C1D3ED /* ActivityListViewController.swift in Sources */,
 				63E788E920D9CADC005080A0 /* DatePickerDialog.swift in Sources */,
+				63E5950E20DC84A000C1D3ED /* Model.xcdatamodeld in Sources */,
 				63E788F920DA2310005080A0 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +386,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		63E5950820DC849F00C1D3ED /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63E5950920DC849F00C1D3ED /* Model.xcdatamodel */,
+			);
+			currentVersion = 63E5950920DC849F00C1D3ED /* Model.xcdatamodel */;
+			name = Model.xcdatamodeld;
+			path = "View Controllers/Model.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 63F2565E20D46B4100A0AB2B /* Project object */;
 }

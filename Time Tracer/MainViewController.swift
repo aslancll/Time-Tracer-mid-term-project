@@ -10,12 +10,16 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    
     /// boolean value to determine whether an activity is running
     var isActivityRunning: Bool = false
     /// boolean value to determine whether an activity is paused
     var isActivityPaused: Bool = false
     /// passed seconds from start
     var passedSeconds: Int = 0
+    
+    /// the choosen activity object to use
+    var choosenActivity: Activity?
     
     /// date of start
 //    var startDate: NSDate!
@@ -24,11 +28,11 @@ class MainViewController: UIViewController {
     
     /// timer that counts the seconds
     var activityTimer: Timer?
-    /// total number of seconds for history objects
+    /// total number of seconds for log objects
     var totalduration: NSInteger = 0
     
-    /// array of all the activities (history objects) that happened today
-//    var todaysActivitiesArray: [History] = []
+    // array of all the activities (log objects) that happened today
+    var todaysActivitiesArray: [Logs] = []
     
     /// today's date formatter
     lazy var todayDateFormatter: DateFormatter = {
@@ -42,16 +46,30 @@ class MainViewController: UIViewController {
     @IBOutlet weak var startPauseButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var currentDateField: UITextField!
+    @IBOutlet weak var activityLabel: UILabel!
     @IBOutlet weak var hoursLabel: UILabel!
     @IBOutlet weak var minutesLabel: UILabel!
     @IBOutlet weak var secondsLabel: UILabel!
     
-    
+    /**
+     Called when view has finished loading.
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        currentDateField.becomeFirstResponder()
         currentDateField.delegate = self
+        title = "Time Tracer"
+        
+    }
+    
+    /**
+     Called when the view appeared. Load the core data entities for today
+     - param: animated YES if animated
+     */
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadCoreDataEntities()
     }
 
     func dateTapped() {
@@ -65,12 +83,26 @@ class MainViewController: UIViewController {
         }
     }
     
+    /**
+     Called when user selected an activity on ActivityListViewController. First it checks to see if any activities are running, if YES it stops the current one, and runs the new
+     
+     - parameter unwindSegue: the unwind segue
+     */
+    @IBAction func unwindFromActivitiesView(unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source as! ActivityListViewController
+        
+        let selectedActivity = sourceViewController.selectedActivity()
+        if choosenActivity != selectedActivity {
+            stopActivity()
+            choosenActivity = selectedActivity
+            startActivity()
+        }
+    }
     
     /**
      IBAction method to handle the start and pause button's press action.
      */
     @IBAction func startPauseActivity() {
-        startActivity()
         if isActivityRunning == true {
             pauseActivity()
         } else {
@@ -95,11 +127,12 @@ class MainViewController: UIViewController {
         secondsLabel.text = "00"
         minutesLabel.text = "00"
         hoursLabel.text = "00"
-//        activityLabel.text = "Start your activity"
+        activityLabel.text = "Start your activity"
         startPauseButton.setTitle("Start activity", for: [])
-//        if passedSeconds != 0 {
-//            saveActivityToHistory()
-//        }
+        if passedSeconds != 0 {
+            saveActivityToLog()
+            tableView.reloadData()
+        }
     }
     
     /**
@@ -116,7 +149,7 @@ class MainViewController: UIViewController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss"
-//        activityLabel.text = "\(choosenActivity!.name!) started at \(dateFormatter.string(from: startDate as Date))"
+        activityLabel.text = "\(choosenActivity!.name!) is started!"
     }
     
     /**
@@ -132,7 +165,17 @@ class MainViewController: UIViewController {
     func startActivityTimer() {
         activityTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(MainViewController.updateLabel), userInfo: nil, repeats: true)
     }
-
+    
+    /**
+     Save the finished activity to core data as a history object.
+     */
+    func saveActivityToLog() {
+        CoreDataHandler.sharedInstance.saveLog(name: choosenActivity!.name!, duration: passedSeconds)
+        
+        passedSeconds = 0
+        choosenActivity = nil
+        loadCoreDataEntities()
+    }
     
     /**
      Stop the timer
@@ -141,6 +184,28 @@ class MainViewController: UIViewController {
         if let timer = activityTimer {
             timer.invalidate()
         }
+    }
+    /**
+     Creates a duration string from the passed in duration value. Format is 00:00:00
+     
+     - parameter duration: duration to value to use for displaying the duration
+     
+     - returns: NSString formatted duration string
+     */
+    class func createDurationStringFromDuration(duration: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumIntegerDigits = 2
+        
+        let seconds = UInt8(Int(duration) % 60)
+        let minutes = UInt8((Int(duration) / 60) % 60)
+        let hours = UInt8((duration / 3600))
+        
+        let secondString = seconds > 9 ? String(seconds) : "0" + String(seconds)
+        let minuteString = minutes > 9 ? String(minutes) : "0" + String(minutes)
+        let hoursString = hours > 9 ? String(hours) : "0" + String(hours)
+        
+        let durationString = "\(hoursString):\(minuteString):\(secondString)"
+        return durationString
     }
     
     /**
@@ -165,74 +230,98 @@ class MainViewController: UIViewController {
         secondsLabel.text = timeStringWithTimeToDisplay(time: seconds)
         minutesLabel.text = timeStringWithTimeToDisplay(time: minutes)
         hoursLabel.text = timeStringWithTimeToDisplay(time: hours)
+        print(passedSeconds)
     }
 
+    /**
+     Load history entities from core data.
+     */
+    func loadCoreDataEntities() {
+        todaysActivitiesArray = CoreDataHandler.sharedInstance.fetchCoreDataForTodayActivities()
+        if todaysActivitiesArray.count != 0 {
+            totalduration = calculateTotalDurationForToday()
+        }
+        tableView.reloadData()
+        print("data reloaded")
+    }
+    
+    /**
+     Calculate the total duration of activites for today.
+     
+     - returns: NSInteger summary value of durations as an integer.
+     */
+    func calculateTotalDurationForToday() -> NSInteger {
+        var sumOfDuration = 0
+        for history in todaysActivitiesArray {
+            sumOfDuration += (history.duration?.intValue)!
+        }
+        return sumOfDuration
+    }
     
     
-//    // MARK: tableView methods
-//    /**
-//     Asks the data source for a cell to insert in a particular location of the table view.
-//
-//     - parameter tableView: tableView
-//     - parameter indexPath: indexPath
-//
-//     - returns: created cell
-//     */
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! HistoryCell
-//
-//        let history = todaysActivitiesArray[indexPath.row]
-//
-//        cell.timeLabel.text = "\(todayDateFormatter.string(from: history.startDate! as Date as Date)) -  \(todayDateFormatter.string(from: history.endDate! as Date))"
-//        cell.durationLabel.text = NSString.createDurationStringFromDuration(duration: (history.duration?.doubleValue)!)
-//
-//        return cell
-//    }
-//
-//    /**
-//     How many rows/cells to display
-//
-//     - parameter tableView: tableView
-//     - parameter section:   in which section
-//
-//     - returns: number of rows
-//     */
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return todaysActivitiesArray.count
-//    }
-//
-//    /**
-//     Height for each cell
-//
-//     - parameter tableView: tableView
-//     - parameter indexPath: at which indexpath
-//
-//     - returns: height
-//     */
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 72
-//    }
-//
-//    /**
-//     Height for the headerview
-//
-//     - parameter tableView: tableView
-//     - parameter section:   at which section
-//
-//     - returns: height
-//     */
+    // MARK: tableView methods
+    /**
+     Asks the data source for a cell to insert in a particular location of the table view.
+
+     - parameter tableView: tableView
+     - parameter indexPath: indexPath
+
+     - returns: created cell
+     */
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! LogCell
+
+        let log = todaysActivitiesArray[indexPath.row]
+
+        cell.durationLabel.text = MainViewController.createDurationStringFromDuration(duration: (log.duration?.doubleValue)!)
+
+        return cell
+    }
+
+    /**
+     How many rows/cells to display
+
+     - parameter tableView: tableView
+     - parameter section:   in which section
+
+     - returns: number of rows
+     */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todaysActivitiesArray.count
+    }
+
+    /**
+     Height for each cell
+
+     - parameter tableView: tableView
+     - parameter indexPath: at which indexpath
+
+     - returns: height
+     */
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 72
+    }
+
+    /**
+     Height for the headerview
+
+     - parameter tableView: tableView
+     - parameter section:   at which section
+
+     - returns: height
+     */
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 30
 //    }
-//
-//    /**
-//     What view to use for each section
-//
-//     - parameter tableView: tableView
-//     - parameter section:   at which section
-//
-//     - returns: headerView
-//     */
+
+    /**
+     What view to use for each section
+
+     - parameter tableView: tableView
+     - parameter section:   at which section
+
+     - returns: headerView
+     */
 //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        let title = self.tableView(tableView, titleForHeaderInSection: section)
 //        let heightForRow = self.tableView(tableView, heightForHeaderInSection: section)
@@ -240,21 +329,21 @@ class MainViewController: UIViewController {
 //        let headerView = HeaderView(frame: CGRect.init(x: 0.0, y: 0.0, width: (tableView.frame.size.width) , height: heightForRow), title: title! as NSString)
 //        return headerView
 //    }
-//
-//    /**
-//     What the title should be
-//
-//     - parameter tableView: tableView
-//     - parameter section:   at which section
-//
-//     - returns: title
-//     */
+
+    /**
+     What the title should be
+
+     - parameter tableView: tableView
+     - parameter section:   at which section
+
+     - returns: title
+     */
 //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        return String(format: "Total spent today: \(NSString.createDurationStringFromDuration(duration: Double(totalduration)))")
 //    }
-    
-    
-    
+//
+//
+//
 }
 
 extension MainViewController: UITextFieldDelegate {

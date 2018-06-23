@@ -16,9 +16,13 @@ class CoreDataHandler: NSObject {
      
      - returns: CoreDataHandler
      */
-    class  CoreDataHandler: NSObject {
-        static let sharedInstance = CoreDataHandler()
+    class var sharedInstance: CoreDataHandler {
+        struct Static {
+            static var instance: CoreDataHandler = CoreDataHandler()
     }
+        return Static.instance
+    }
+    
     
     lazy var backgroundManagedObjectContext: NSManagedObjectContext = {
         let backgroundManagedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -121,7 +125,7 @@ class CoreDataHandler: NSObject {
     }
     
     /**
-     Save new history object to core data.
+     Save new log object to core data.
      
      - parameter name:      name of the activity
      - parameter startDate: when the activity started
@@ -132,16 +136,16 @@ class CoreDataHandler: NSObject {
         let log: Logs = NSEntityDescription.insertNewObject(forEntityName: "Logs", into: self.backgroundManagedObjectContext) as! Logs
         log.name = name
         log.duration = duration as NSNumber
-        
+//        log.saveTime = dateFormatter.string(for: Calendar.current)
         saveContext()
     }
     
     /**
-     Fetch core data to get all history objects.
+     Fetch core data to get all log objects.
      
-     - returns: array of history objects
+     - returns: array of log objects
      */
-    func allHistoryItems() -> [Logs]? {
+    func allLogItems() -> [Logs]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         let entityDescription = NSEntityDescription.entity(forEntityName: "Logs", in: self.backgroundManagedObjectContext)
         fetchRequest.entity = entityDescription

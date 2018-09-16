@@ -17,18 +17,3 @@ class Logs: NSManagedObject {
     /// duration of the activity
     @NSManaged var duration: NSNumber?
 }
-
-//var log: [Logs]?
-//
-//func saveData (log:[Logs]) {
-//    UserDefaults.standard.set(Logs.self, forKey: "log")
-//}
-//
-//func fetchData() -> [Logs]? {
-//    
-//    if let log = UserDefaults.standard.array(forKey: "log") as? [Logs] {
-//        return log
-//    } else {
-//        return nil
-//    }
-//}

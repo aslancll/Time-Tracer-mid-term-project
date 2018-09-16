@@ -60,6 +60,7 @@ class MainViewController: UIViewController {
 //        currentDateField.becomeFirstResponder()
         currentDateField.delegate = self
         title = "Time Tracer"
+        activityLabel.text = "Select an activity from list"
         
     }
     
@@ -111,8 +112,6 @@ class MainViewController: UIViewController {
                 isActivityRunning = true
                 startPauseButton.setTitle("Pause Activity", for: [])
                 startActivityTimer()
-            } else {
-                print("openActivityView()")
             }
         }
     }
@@ -127,7 +126,7 @@ class MainViewController: UIViewController {
         secondsLabel.text = "00"
         minutesLabel.text = "00"
         hoursLabel.text = "00"
-        activityLabel.text = "Start your activity"
+        activityLabel.text = "Select an activity from list"
         startPauseButton.setTitle("Start activity", for: [])
         if passedSeconds != 0 {
             saveActivityToLog()
@@ -310,9 +309,9 @@ class MainViewController: UIViewController {
 
      - returns: height
      */
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 30
-//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
 
     /**
      What view to use for each section
@@ -325,7 +324,7 @@ class MainViewController: UIViewController {
 //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        let title = self.tableView(tableView, titleForHeaderInSection: section)
 //        let heightForRow = self.tableView(tableView, heightForHeaderInSection: section)
-//        //        let cgFloat: CGFloat = tableView.frame.size.width
+//                let cgFloat: CGFloat = tableView.frame.size.width
 //        let headerView = HeaderView(frame: CGRect.init(x: 0.0, y: 0.0, width: (tableView.frame.size.width) , height: heightForRow), title: title! as NSString)
 //        return headerView
 //    }
@@ -341,9 +340,9 @@ class MainViewController: UIViewController {
 //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        return String(format: "Total spent today: \(NSString.createDurationStringFromDuration(duration: Double(totalduration)))")
 //    }
-//
-//
-//
+
+
+
 }
 
 extension MainViewController: UITextFieldDelegate {

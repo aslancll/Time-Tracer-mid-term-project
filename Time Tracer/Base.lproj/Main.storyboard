@@ -108,6 +108,7 @@
                                         </state>
                                         <connections>
                                             <action selector="startPauseActivity" destination="9pv-A4-QxB" eventType="touchUpInside" id="cDq-KN-oKR"/>
+                                            <segue destination="2Dh-84-gxT" kind="show" id="CQ3-9T-t8G"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyg-2f-x7p" userLabel="Stop">
@@ -519,4 +520,7 @@
         <image name="info" width="50" height="50"/>
         <image name="log" width="50" height="50"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="CQ3-9T-t8G"/>
+    </inferredMetricsTieBreakers>
 </document>

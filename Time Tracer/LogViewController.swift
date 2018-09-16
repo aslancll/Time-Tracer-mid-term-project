@@ -24,7 +24,7 @@ class LogViewController: UIViewController {
         let nameDescriptor = NSSortDescriptor(key: "name", ascending: false)
         fetchRequest.sortDescriptors = [nameDescriptor]
         
-        let fetchedController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHandler.sharedInstance.backgroundManagedObjectContext, sectionNameKeyPath: "saveTime", cacheName: nil)
+        let fetchedController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHandler.sharedInstance.backgroundManagedObjectContext, sectionNameKeyPath: "duration", cacheName: nil)
         fetchedController.delegate = self as? NSFetchedResultsControllerDelegate
         return fetchedController
     }()
